@@ -43,7 +43,7 @@ function selectOption(option) {
 const textNodes = [
      {
           id: 1,
-          text: "You wander through the foggy streets of Havenbrook. You are a stranger here and the air is heavy with tension. Standing by a the half-shattered windows of a shop, you get the feeling you're being watched. You spot a nearby church.",
+          text: "TEST - You wander through the foggy streets of Havenbrook. You are a stranger here and the air is heavy with tension. Standing by a the half-shattered windows of a shop, you get the feeling you're being watched. You spot a nearby church.",
           options: [
                {
                     text: "Take refuge in the church",
@@ -128,7 +128,7 @@ const textNodes = [
      {
           id: 106,
           text: "In a panic, you flee from the swarm of bats, running to a nearby house. You quickly shut the door on them, pressing your back against the door until they're gone"
-     }
+     },
      {
           id: 202,
           text: "It's you.",
