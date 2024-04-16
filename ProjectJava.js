@@ -43,11 +43,10 @@ function selectOption(option) {
 const textNodes = [
      {
           id: 1,
-          text: "TEST - You wander through the foggy streets of Havenbrook. You are a stranger here and the air is heavy with tension. Standing by a the half-shattered windows of a shop, you get the feeling you're being watched. You spot a nearby church.",
+          text: "You wander through the foggy streets of Havenbrook. You are a stranger here and the air is heavy with tension. Standing by a the half-shattered windows of a shop, you get the feeling you're being watched. You spot a nearby church.",
           options: [
                {
                     text: "Take refuge in the church",
-                    setState: {ChurchVisit: true},
                     nextText: 2,
                },
                {
@@ -80,7 +79,6 @@ const textNodes = [
           options: [
                {
                     text: "Fight back",
-                    requiredState: (currentState) => !currentState.Injured,
                     nextText: 105,
                },
                {
@@ -105,29 +103,67 @@ const textNodes = [
      },
      {
           id: 105,
-          text: "You decide to stand your ground agaist the bats as they swarm you",
+          text: "You decide to stand your ground agaist the bats as they swarm you. They slash at you with their razor sharp talons",
           options: [
                {
                     text: "Swing wildly",
+                    requiredState: (currentState) => !currentState.Injured,
+                    setState: {Injured: true},
                     nextText: 108,
                },
                {
                     text: "Protect your vital points",
+                    requiredState: (currentState) => !currentState.Injured,
                     nextText: 109,
                },
                {
-                    text: "Attack patiently",
+                    text: "Try to run",
+                    requiredState: (currentState) => !currentState.Injured,
                     nextText: 110,
                },
                {
-                    text: "Try to run",
+                    text: "Struggle helplessly",
+                    requiredState: (currentState) => currentState.Injured,
                     nextText: 111,
                }
           ]
      },
      {
           id: 106,
-          text: "In a panic, you flee from the swarm of bats, running to a nearby house. You quickly shut the door on them, pressing your back against the door until they're gone"
+          text: "In a panic, you flee from the swarm of bats, running to a nearby house. You quickly shut the door on them, pressing your back against the door until they're gone.",
+          options: [
+               {
+                    text: "Explore the house",
+                    nextText: 402,
+               },
+               {
+                    text: "Exit the house through the back",
+                    next: 112,
+               },
+          ]
+     },
+     {
+          id: 107,
+          text: "You make it back to the main street. You spot several different locations of interest.",
+          options:
+          [
+               {
+                    text: "Check the house in front of you",
+                    nextText: 402
+               },
+               {
+                    text: "Check the Church",
+                    nextText: 2,
+               },
+               {
+                    text: "Check the nearby supermarket",
+                    nextText: 113,
+               }
+          ]
+     },
+     {
+          id: 108,
+          text: ""
      },
      {
           id: 202,
@@ -145,18 +181,14 @@ const textNodes = [
           options: [
                {
                     text: "Turn around",
-                    requiredState: (currentState) => currentState.ChurchVisit,
                     nextText: 3,
                },
                {
                     text: "Run out the back door",
-                    requiredState: (currentState) => currentState.ChurchVisit,
-                    setState: {ChurchVisit: false},
                     nextText: 4,
                },
                {
                     text: "Run up the stairs",
-                    requiredState: (currentState) => currentState.ChurchVisit,
                     nextText: 5,
                }
           ]
