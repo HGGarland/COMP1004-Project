@@ -56,6 +56,10 @@ const textNodes = [
                {
                     text: "Check your reflection in the window",
                     nextText: 202,
+               },
+               {
+                    text: "Head towards the supermarket",
+                    nextText: 302,
                }
           ]
      },
@@ -89,7 +93,7 @@ const textNodes = [
      },
      {
           id: 104,
-          text: "You slowly back away from the shaking bin, deciding that finding out what's inside isn't worth the trouble",
+          text: "You slowly back away from the bin, deciding that finding out what's inside isn't worth the trouble",
           options: [
                {
                     text: "Return to the main street",
@@ -112,7 +116,7 @@ const textNodes = [
                     nextText: 108,
                },
                {
-                    text: "Protect your vital points",
+                    text: "Assume a defensive position",
                     requiredState: (currentState) => !currentState.Injured,
                     nextText: 109,
                },
@@ -134,7 +138,7 @@ const textNodes = [
           options: [
                {
                     text: "Explore the house",
-                    nextText: 402,
+                    nextText: 250,
                },
                {
                     text: "Exit the house through the back",
@@ -149,21 +153,164 @@ const textNodes = [
           [
                {
                     text: "Check the house in front of you",
-                    nextText: 402
+                    requiredState: (currentState) => !currentState.HouseComplete,
+                    nextText: 250,
                },
                {
                     text: "Check the Church",
+                    requiredState: (currentState) => !currentState.ChurchComplete,
                     nextText: 2,
                },
                {
                     text: "Check the nearby supermarket",
-                    nextText: 113,
-               }
+                    requiredState: (currentState) => !currentState.SupermarketComplete,
+                    nextText: 340,
+               },
+               {
+                    text: "Stay on the main street",
+                    requiredState: (currentState) => !currentState.BinComplete,
+                    nextText: 102,
+               },
           ]
      },
      {
           id: 108,
-          text: ""
+          text: "The bats swarm you, your efforts to fight back prove fruitless. Eventually, they fly past you. You've sustained several injuries, but at least you're alive.",
+          options: [
+               {
+                    text: "Check the bin properly",
+                    nextText: 113,
+               },
+               {
+                    text: "Leave while you have the chance",
+                    nextText: 104,
+               }
+          ]
+     },
+     {
+          id: 109,
+          text: "Instead of trying to fight off the bats, you assume a defensive position, protecting your vital organs. The bats pass by you eventually, leaving you with only minor cuts and bruises.",
+          options: [
+               {
+                    text: "Check the bin properly",
+                    nextText: 113,
+               },
+               {
+                    text: "Leave while you have the chance",
+                    nextText: 104,
+               }
+          ]
+     },
+     {
+          id: 110,
+          text: "You run as fast as you can from the swarm of bats, not looking behind you. The bats slowly dissipate, leaving you with minor injuries",
+          options:
+          [
+               {
+                    text: "Proceed",
+                    nextText: 107,
+               }
+          ]
+     },
+     {
+          id: 111,
+          text: "Due to your previous injuries, you are unable to put up a fight against the horde of bats. You blood pools on the floor. You collapse. The light slowly fades.",
+          options:
+          [
+               {
+                    text: "Game Over",
+                    nextText: -1,
+               }
+          ]
+     },
+     {
+          id: 112,
+          text: "As you leave the house through the back door, you reflect on the circumstances that led you here. For months reports had been pouring out of this isolated town of empty streets and screams in the night. The fog never seeming to fade. You came here in search of a story, armed with nothing but your camera. You begin to question if this was a good idea",
+          options: [
+               {
+                    text: "Check camera",
+                    nextText: 114,
+               }
+          ]
+     },
+     {
+          id: 113,
+          text: "You look inside the bin and find a small crowbar. Would you like to take it with you?",
+          options: 
+          [
+               {
+                    text: "Yes",
+                    requiredState: (currentState) => !currentState.Crowbar,
+                    setState: {Crowbar: true},
+                    nextText: 4764,
+               },
+               {
+                    text: "No",
+                    requiredState: (currentState) => !currentState.Crowbar,
+                    nextText: 9839999,
+               },
+               {
+                    text: "...",
+                    requiredState: (currentState) => currentState.Crowbar,
+                    nextText: 738627627637,
+               }
+          ]
+     },
+     {
+          id: 114,
+          text: "You decide to check your trusty camera for damages. All good, thankfully, on the outside at least",
+          options: [
+               {
+                    text: "Open the camera",
+                    nextText: 115,
+               }
+          ]
+     },
+     {
+          id: 115,
+          text: "You open it up to find yourself with only a small bit of film left, good for two photos maybe. On closer inspection, the remaining film is glowing a deep green, as if radiating with some kind of energy. You wonder what would happen if you take a picture",
+          options: [
+               {
+                    text: "Take a picture of a nearby wall",
+                    nextText: 116,
+               },
+               {
+                    text: "Take a picture of your hand",
+                    nextText: 117,
+               }
+          ]
+     },
+     {
+          id: 116,
+          text: "The shutter clicks. You wait for the film to develop. The photograph comes out, showing the wall but unlike it appears in reality. In the photo, the wall is covered with frantic markings of the word 'help' over and over again, seemingly written in blood. You drop the photo in fear. You look up and find that the two paths from earlier crossing again, giving you a chance to continue down your initial path or to switch to the other. You have enough film left for one more photo.",
+          options:
+          [
+               {
+                    text: "Go back inside the house",
+                    nextText: 11,
+               },
+               {
+                    text: "Head back to the main street",
+                    nextText: 12,
+               }
+
+          ]
+     },
+     {
+     id: 117,
+          text: "The shutter clicks. You wait for the film to develop. The photograph comes out, showing your hand but slathered in blood, creeping down your wrists. You drop the photo out of fear and try to not think about it. You have enough film left for one more photo.",
+          options:
+          [
+               {
+                    text: "Go back inside the house",
+                    nextText: 11,
+               },
+               {
+                    text: "Head back to the main street",
+                    nextText: 12,
+               }
+
+          ]
      },
      {
           id: 202,
@@ -256,10 +403,6 @@ const textNodes = [
           text: "You decide to take the left path and continue down it. The alley is filled with an unsettling silence. You pass a deep pool of blood with an unnaturally bright colour. The smell turns your stomach. As you walk, you reflect on the circumstances that led you here. For months reports had been pouring out of this isolated town of empty streets and screams in the night. The fog never seeming to fade. You came here in search of a story, armed with nothing but your camera. You begin to question if this was a good idea",
           options: [
                {
-                    text: "Keep walking",
-                    nextText: 11,
-               },
-               {
                     text: "Check camera",
                     nextText: 13,
                }
@@ -267,12 +410,8 @@ const textNodes = [
      },
      {
           id: 8,
-          text: "You decide to take the right path and continue down it. The tension in the air is thick. You pass a large slice of seemingly human flesh. Upon closer inspection, it appears to be several smaller pieces of dead flesh stitched together crudely. A you walk, you decide to leave it be. You reflect on the circumstances that led you here. For months reports had been pouring out of this isolated town of empty streets and screams in the night. The fog never seeming to fade. You came here in search of a story, armed with nothing but your camera. You begin to question if this was a good idea",
+          text: "You decide to take the right path and continue down it. The tension in the air is thick. You pass a large slice of seemingly human flesh. Upon closer inspection, it appears to be several smaller pieces of dead flesh stitched together crudely. As you walk, you decide to leave it be. You reflect on the circumstances that led you here. For months reports had been pouring out of this isolated town of empty streets and screams in the night. The fog never seeming to fade. You came here in search of a story, armed with nothing but your camera. You begin to question if this was a good idea",
           options: [
-               {
-                    text: "Keep walking",
-                    nextText: 12,
-               },
                {
                     text: "Check camera",
                     nextText: 13,
@@ -303,11 +442,30 @@ const textNodes = [
      },
      {
           id: 11,
-          text: "Left",
+          text: "You continue down the left path and find yourself outside the supermarket",
+          options: [
+               {
+                    text: "Explore the supermarket",
+                    nextText: 302,
+               },
+               {
+                    text: "Reconsider your options",
+                    nextText: 999,
+               }
+          ]
      },
      {
           id: 12,
-          text: "Right",
+          text: "You continue down the right path following it. It heads back to the main street",
+          options: [
+               {
+                    text: "Continue back to the main street",
+               },
+               {
+                    text: "Reconsider your options",
+                    nextText: 999,
+               }
+          ]
      },
      {
           id: 13,
