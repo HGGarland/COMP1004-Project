@@ -242,17 +242,17 @@ const textNodes = [
                     text: "Yes",
                     requiredState: (currentState) => !currentState.Crowbar,
                     setState: {Crowbar: true},
-                    nextText: 4764,
+                    nextText: 118,
                },
                {
                     text: "No",
                     requiredState: (currentState) => !currentState.Crowbar,
-                    nextText: 9839999,
+                    nextText: 119,
                },
                {
                     text: "...",
                     requiredState: (currentState) => currentState.Crowbar,
-                    nextText: 738627627637,
+                    nextText: 120,
                }
           ]
      },
@@ -287,11 +287,13 @@ const textNodes = [
           [
                {
                     text: "Go back inside the house",
-                    nextText: 11,
+                    setState: {Camera: true},
+                    nextText: 250,
                },
                {
                     text: "Head back to the main street",
-                    nextText: 12,
+                    setState: {Camera: true},
+                    nextText: 107,
                }
 
           ]
@@ -303,11 +305,154 @@ const textNodes = [
           [
                {
                     text: "Go back inside the house",
-                    nextText: 11,
+                    setState: {Camera: true},
+                    nextText: 250,
                },
                {
                     text: "Head back to the main street",
-                    nextText: 12,
+                    setState: {Camera: true},
+                    nextText: 107,
+               }
+
+          ]
+     },
+     {
+          id: 118,
+          text: "You grab the crowbar from the bin, might come in handy after all. Where to next?",
+          options:
+          [
+               {
+                    text: "Head back to the main street",
+                    setState: {BinComplete: true},
+                    nextText: 107,
+               },
+               {
+                    text: "Explore the alley further",
+                    nextText: 121,
+               }
+          ]
+     },
+     {
+          id: 119,
+          text: "You decide to leave the crowbar alone, just in case",
+          options:
+          [
+               {
+                    text: "Head back to the main street",
+                    setState: {BinComplete: true},
+                    nextText: 107,
+               }
+          ]
+     },
+     {
+          id: 120,
+          text: "You already have a crowbar, no need to carry a second one",
+          options:
+          [
+               {
+                    text: "Head back to the main street",
+                    setState: {BinComplete: true},
+                    nextText: 107,
+               },
+               {
+                    text: "Explore the alley further",
+                    nextText: 121,
+               }
+          ]
+     },
+     {
+          id: 121,
+          text: "You head further into the alley. As you walk, you notice that you aren't actually getting any closer to the end. It's as though the alley is constantly getting longer. A chill runs down your back.",
+          options:
+          [
+               {
+                    text: "Proceed?",
+                    nextText: 122,
+               },
+               {
+                    text: "Turn back",
+                    nextText: 123,
+               },
+               {
+                    text: "Use camera",
+                    requiredState: (currentState) => currentState.Camera,
+                    nextText: 124,
+               },
+          ]
+     },
+     {
+          id: 122,
+          text: "Seeing no other real option, you continue down the seemingly endless alley. The alley seems to repeat over and over. After several minutes, you come across the first sign of something different. A wooden doll of a young ballerina.",
+          options:
+          [
+               {
+                    text: "Stop to look at the doll",
+                    nextText: 125,
+               },
+               {
+                    text: "Keep moving",
+                    nextText: 126,
+               }
+          ]
+     },
+     {
+          id: 123,
+          text: "You turn around, attempting to go back the way you came. After a while of walking that way, you realise that you're still heading for the same alley ending you were before. It seems you've made no progress at all.",
+          options:
+          [
+               {
+                    text: "...",
+                    nextText: 122,
+               }
+          ]
+     },
+     {
+          id: 124,
+          text: "You take a picture with your camera, in hopes it will reveal some way out due to the special film you found earlier. The camera flashes, revealing a loose brick in the wall beside you. You move the brick and that section of wall collapses.",
+          options:
+          [
+               {
+                    text: "Go through the hole in the wall",
+                    nextText: 130,
+               }
+          ]
+     },
+     {
+          id: 125,
+          text: "You stop to look at the doll for a moment. Seems perfectly ordinary. You make eye contact with it for a few seconds then suddenly, it lunges at you.",
+          options:
+          [
+               {
+                    text: "Run away",
+                    nextText: 127,
+               },
+               {
+                    text: "Try to fight back",
+                    nextText: 128,
+               },
+               {
+                    text: "Hit it with the crowbar",
+                    nextText: 129,
+               }
+
+          ]
+     },
+     {
+          id: 126,
+          text: "You decide to leave the doll alone but as you turn your back on it, it lunges at you",
+          options:
+          [
+               {
+                    text: "Run away",
+                    nextText: 127,
+               },
+               {
+                    text: "Try to fight back",
+                    nextText: 128,
+               },
+               {
+                    text: "Hit it with the crowbar",
+                    nextText: 129,
                }
 
           ]
@@ -460,6 +605,7 @@ const textNodes = [
           options: [
                {
                     text: "Continue back to the main street",
+                    nextText: 107,
                },
                {
                     text: "Reconsider your options",
@@ -498,10 +644,12 @@ const textNodes = [
           [
                {
                     text: "Continue, following the left path",
+                    setState: {Camera: true},
                     nextText: 11,
                },
                {
                     text: "Continue, following the right path",
+                    setState: {Camera: true},
                     nextText: 12,
                }
 
@@ -514,10 +662,12 @@ const textNodes = [
           [
                {
                     text: "Continue, following the left path",
+                    setState: {Camera: true},
                     nextText: 11,
                },
                {
                     text: "Continue, following the right path",
+                    setState: {Camera: true},
                     nextText: 12,
                }
 
