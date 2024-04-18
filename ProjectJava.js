@@ -142,7 +142,7 @@ const textNodes = [
                },
                {
                     text: "Exit the house through the back",
-                    next: 112,
+                    nextText: 112,
                },
           ]
      },
@@ -229,15 +229,25 @@ const textNodes = [
           options: [
                {
                     text: "Check camera",
+                    requiredState: (currentState) => !currentState.CameraUnlock,
                     nextText: 114,
+               },
+               {
+                    text: "Go back inside the house",
+                    requiredState: (currentState) => currentState.CameraUnlock,
+                    nextText: 250,
+               },
+               {
+                    text: "Head back to the main street",
+                    requiredState: (currentState) => currentState.CameraUnlock,
+                    nextText: 107,
                }
           ]
      },
      {
           id: 113,
           text: "You look inside the bin and find a small crowbar. Would you like to take it with you?",
-          options: 
-          [
+          options: [
                {
                     text: "Yes",
                     requiredState: (currentState) => !currentState.Crowbar,
@@ -283,8 +293,7 @@ const textNodes = [
      {
           id: 116,
           text: "The shutter clicks. You wait for the film to develop. The photograph comes out, showing the wall but unlike it appears in reality. In the photo, the wall is covered with frantic markings of the word 'help' over and over again, seemingly written in blood. You drop the photo in fear. You look up and find that the two paths from earlier crossing again, giving you a chance to continue down your initial path or to switch to the other. You have enough film left for one more photo.",
-          options:
-          [
+          options: [
                {
                     text: "Go back inside the house",
                     setState: {Camera: true},
@@ -301,8 +310,7 @@ const textNodes = [
      {
      id: 117,
           text: "The shutter clicks. You wait for the film to develop. The photograph comes out, showing your hand but slathered in blood, creeping down your wrists. You drop the photo out of fear and try to not think about it. You have enough film left for one more photo.",
-          options:
-          [
+          options: [
                {
                     text: "Go back inside the house",
                     setState: {Camera: true},
@@ -319,8 +327,7 @@ const textNodes = [
      {
           id: 118,
           text: "You grab the crowbar from the bin, might come in handy after all. Where to next?",
-          options:
-          [
+          options: [
                {
                     text: "Head back to the main street",
                     setState: {BinComplete: true},
@@ -335,8 +342,7 @@ const textNodes = [
      {
           id: 119,
           text: "You decide to leave the crowbar alone, just in case",
-          options:
-          [
+          options: [
                {
                     text: "Head back to the main street",
                     setState: {BinComplete: true},
@@ -347,8 +353,7 @@ const textNodes = [
      {
           id: 120,
           text: "You already have a crowbar, no need to carry a second one",
-          options:
-          [
+          options: [
                {
                     text: "Head back to the main street",
                     setState: {BinComplete: true},
@@ -363,8 +368,7 @@ const textNodes = [
      {
           id: 121,
           text: "You head further into the alley. As you walk, you notice that you aren't actually getting any closer to the end. It's as though the alley is constantly getting longer. A chill runs down your back.",
-          options:
-          [
+          options: [
                {
                     text: "Proceed?",
                     nextText: 122,
@@ -383,8 +387,7 @@ const textNodes = [
      {
           id: 122,
           text: "Seeing no other real option, you continue down the seemingly endless alley. The alley seems to repeat over and over. After several minutes, you come across the first sign of something different. A wooden doll of a young ballerina.",
-          options:
-          [
+          options: [
                {
                     text: "Stop to look at the doll",
                     nextText: 125,
@@ -398,8 +401,7 @@ const textNodes = [
      {
           id: 123,
           text: "You turn around, attempting to go back the way you came. After a while of walking that way, you realise that you're still heading for the same alley ending you were before. It seems you've made no progress at all.",
-          options:
-          [
+          options: [
                {
                     text: "...",
                     nextText: 122,
@@ -409,10 +411,10 @@ const textNodes = [
      {
           id: 124,
           text: "You take a picture with your camera, in hopes it will reveal some way out due to the special film you found earlier. The camera flashes, revealing a loose brick in the wall beside you. You move the brick and that section of wall collapses.",
-          options:
-          [
+          options: [
                {
                     text: "Go through the hole in the wall",
+                    setState: {Camera: false},
                     nextText: 130,
                }
           ]
@@ -420,8 +422,7 @@ const textNodes = [
      {
           id: 125,
           text: "You stop to look at the doll for a moment. Seems perfectly ordinary. You make eye contact with it for a few seconds then suddenly, it lunges at you.",
-          options:
-          [
+          options: [
                {
                     text: "Run away",
                     nextText: 127,
@@ -432,6 +433,7 @@ const textNodes = [
                },
                {
                     text: "Hit it with the crowbar",
+                    requiredState: (currentState) => currentState.Crowbar,
                     nextText: 129,
                }
 
@@ -440,21 +442,194 @@ const textNodes = [
      {
           id: 126,
           text: "You decide to leave the doll alone but as you turn your back on it, it lunges at you",
-          options:
-          [
+          options: [
                {
                     text: "Run away",
                     nextText: 127,
                },
                {
                     text: "Try to fight back",
+                    requiredState: (currentState) => !currentState.Injured,
                     nextText: 128,
                },
                {
                     text: "Hit it with the crowbar",
+                    requiredState: (currentState) => currentState.Crowbar,
+                    requiredState: (currentState) => !currentState.Injured,
                     nextText: 129,
+               },
+               {
+                    text: "Struggle against the doll",
+                    requiredState: (currentState) => currentState.Injured,
+                    nextText: 131,
                }
 
+          ]
+     },
+     {
+          id: 127,
+          text: "You try to run but run out of stamina quickly. The doll's pursuit is unceasing. It's right behind you once again",
+          options: [
+               {
+                    text: "Hit it with the crowbar",
+                    requiredState: (currentState) => currentState.Crowbar,
+                    requiredState: (currentState) => !currentState.Injured,
+                    nextText: 129,
+               },
+               {
+                    text: "Struggle against the doll",
+                    requiredState: (currentState) => !currentState.Crowbar,
+                    requiredState: (currentState) => !currentState.Injured,
+                    nextText: 128,
+               },
+               {
+                    text: "Struggle against the doll",
+                    requiredState: (currentState) => currentState.Injured,
+                    nextText: 131,
+               }
+          ]
+     },
+     {
+          id: 128,
+          text: "You're quickly overpowered by the doll. It tears off your arms, then your legs. You slowly bleed out on the floor",
+          options: [
+               {
+                    text: "...",
+                    nextText: -1,
+               }
+          ]
+     },
+     {
+          id: 129,
+          text: "You swing the crowbar as hard as you can at the doll. It shatters like glass but leaves the crowbar bent out of shape. You decide it's no longer worth carrying. You spot something shiny in the remains of the doll",
+          options: [
+               {
+                    text: "Pick it up",
+                    setState: {TKey: true},
+                    setState: {Crowbar: false},
+                    nextText: 132,
+               },
+               {
+                    text: "Ignore it",
+                    setState: {Crowbar: false},
+                    nextText: 133,
+               }
+          ]
+     },
+     {
+          id: 130,
+          text: "You go through the hole and end up back where you started, just outside the alley. All seems to be normal, relatively speaking.",
+          options: [
+               {
+                    text: "Return to the main street",
+                    requiredState: (currentState) => currentState.CameraUnlock,
+                    nextText: 107,
+               },
+               {
+                    text: "Check camera",
+                    requiredState: (currentState) => !currentState.CameraUnlock,
+                    nextText: 134,
+               }
+          ]
+     },
+     {
+          id: 131,
+          text: "Due to your previous injuries, the doll overpowers you before you have a chance to fight back. You fall to your knees as the light slowly fades.",
+          options: [
+               {
+                    text: "...",
+                    nextText: -1,
+               }
+          ]
+     },
+     {
+          id: 132,
+          text: "In the debris left by the now broken doll, you find a small key. It has a tag attatched but there is no writing on it. You wonder if there is hidden writing",
+          options: [
+               {
+                    text: "Use your camera on the tag",
+                    requiredState: (currentState) => currentState.Camera,
+                    nextText: 135,
+               },
+               {
+                    text: "Pocket the key and move on",
+                    nextText: 133,
+               }
+
+          ]
+     },
+     {
+          id: 133,
+          text: "You look up and see that a hole has opened up in the wall of the endless alleyway",
+          options: [
+               {
+                    text: "Leave the alley",
+                    nextText: 130,
+               }
+          ]
+     },
+     {
+          id: 134,
+          text: "You decide to check your trusty camera for damages. All good, thankfully, on the outside at least",
+          options: [
+               {
+                    text: "Open the camera",
+                    nextText: 136,
+               }
+          ]
+     },
+     {
+          id: 135,
+          text: "You take a picture of the key's tag. The photo develops and shows that the tag reads: 'Town Hall'",
+          options: [
+               {
+                    text: "Pocket the key and move on",
+                    setState: {THall: true},
+                    setState: {Camera: false},
+                    nextText: 133,
+               }
+          ]
+     },
+     {
+          id: 136,
+          text: "You open it up to find yourself with only a small bit of film left, good for two photos maybe. On closer inspection, the remaining film is glowing a deep green, as if radiating with some kind of energy. You wonder what would happen if you take a picture",
+          options: 
+          [
+               {
+                    text: "Take a picture of a nearby wall",
+                    nextText: 137,
+               },
+               {
+                    text: "Take a picture of your hand",
+                    nextText: 138,
+               }
+          ]
+     },
+     {
+          id: 137,
+          text: "The shutter clicks. You wait for the film to develop. The photograph comes out, showing the wall but unlike it appears in reality. In the photo, the wall is covered with frantic markings of the word 'help' over and over again, seemingly written in blood. You drop the photo in fear. You look up and find that the two paths from earlier crossing again, giving you a chance to continue down your initial path or to switch to the other. You have enough film left for one more photo.",
+          options:
+          [
+               {
+                    text: "Return to the main street",
+                    setState: {Camera: true},
+                    setState: {CameraUnlock: true},
+                    nextText: 107,
+               }
+
+          ]
+     },
+     {
+     id: 138,
+          text: "The shutter clicks. You wait for the film to develop. The photograph comes out, showing your hand but slathered in blood, creeping down your wrists. You drop the photo out of fear and try to not think about it. You have enough film left for one more photo.",
+          options:
+          [
+               {
+                    text: "Return to the main street",
+                    setState: {Camera: true},
+                    setState: {CameraUnlock: true},
+                    nextText: 107,
+               },
           ]
      },
      {
@@ -549,7 +724,13 @@ const textNodes = [
           options: [
                {
                     text: "Check camera",
+                    requiredState: (currentState) => !currentState.CameraUnlock,
                     nextText: 13,
+               },
+               {
+                    text: "Proceed",
+                    requiredState: (currentState) => currentState.CameraUnlock,
+                    nextText: 11,
                }
           ]
      },
@@ -559,7 +740,13 @@ const textNodes = [
           options: [
                {
                     text: "Check camera",
+                    requiredState: (currentState) => !currentState.CameraUnlock,
                     nextText: 13,
+               },
+               {
+                    text: "Proceed",
+                    requiredState: (currentState) => currentState.CameraUnlock,
+                    nextText: 12,
                }
           ]
 
@@ -645,11 +832,13 @@ const textNodes = [
                {
                     text: "Continue, following the left path",
                     setState: {Camera: true},
+                    setState: {CameraUnlock: true},
                     nextText: 11,
                },
                {
                     text: "Continue, following the right path",
                     setState: {Camera: true},
+                    setState: {CameraUnlock: true},
                     nextText: 12,
                }
 
@@ -663,11 +852,13 @@ const textNodes = [
                {
                     text: "Continue, following the left path",
                     setState: {Camera: true},
+                    setState: {CameraUnlock: true},
                     nextText: 11,
                },
                {
                     text: "Continue, following the right path",
                     setState: {Camera: true},
+                    setState: {CameraUnlock: true},
                     nextText: 12,
                }
 
