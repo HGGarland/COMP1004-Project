@@ -64,6 +64,231 @@ const textNodes = [
           ]
      },
      {
+          id: 2,
+          text: "You enter the decrepit church, the rotted wooden walls creak as the wind howls. You hear rustling behind you. ",
+          options: [
+               {
+                    text: "Turn around",
+                    nextText: 3,
+               },
+               {
+                    text: "Run out the back door",
+                    nextText: 4,
+               },
+               {
+                    text: "Hide behind the stairs",
+                    nextText: 800,
+               }
+          ]
+
+     },
+     {
+          id: 3,
+          text: "You turn around and are faced by a huge, groaning blob of flesh. Stitches cover its body connecting multiple shriveled heads. Its large claw-like hands reach towards you, slashing your arm. Blood comes gushing out of you",
+          options: [
+               {
+                    text: "Try to fight the creature",
+                    requiredState: (currentState) => !currentState.Injured,
+                    nextText: 6,
+               },
+               {
+                    text: "Run up the stairs",
+                    requiredState: (currentState) => !currentState.Injured,
+                    nextText: 5,
+               },
+               {
+                    text: "Struggle against the creature",
+                    requiredState: (currentState) => currentState.Injured,
+                    nextText: 6,
+               }
+          ]
+     },
+     {
+          id: 4,
+          text: "You manage to escape the church, not looking behind you for even a second. Whatever that thing was in the darkness, it seems like it isn't following you. You find yourself in a small alleyway. As you walk further along, the alley forks two directions",
+          options: [
+               {
+                    text: "Turn left",
+                    nextText: 7,
+               },
+               {
+                    text: "Turn right",
+                    nextText: 8,
+               }
+
+          ]
+     },
+     {
+          id: 5,
+          text: "You dash quickly up the stairs in fear. You find nothing up there but a dead end and a window. It sounds like whatever was behind you is getting closer",
+          options: [
+               {
+                    text: "Turn around to face the creature",
+                    nextText: 6,
+               },
+               {
+                    text: "Jump out of the window",
+                    nextText: 9,
+               }
+          ]
+     },
+     {
+          id: 6,
+          text: "You struggle against the creature, its claws cutting into your flesh. You reach forward and try to strike back but the creature is unmoving. Slowly you start to feel faint. The pain fades.",
+          options: [
+               {
+                    text: "...",
+                    nextText: 10,
+               }
+          ]
+     },
+     {
+          id: 7,
+          text: "You decide to take the left path and continue down it. The alley is filled with an unsettling silence. You pass a deep pool of blood with an unnaturally bright colour. The smell turns your stomach. As you walk, you reflect on the circumstances that led you here. For months reports had been pouring out of this isolated town of empty streets and screams in the night. The fog never seeming to fade. You came here in search of a story, armed with nothing but your camera. You begin to question if this was a good idea",
+          options: [
+               {
+                    text: "Check camera",
+                    requiredState: (currentState) => !currentState.CameraUnlock,
+                    nextText: 13,
+               },
+               {
+                    text: "Proceed",
+                    requiredState: (currentState) => currentState.CameraUnlock,
+                    nextText: 11,
+               }
+          ]
+     },
+     {
+          id: 8,
+          text: "You decide to take the right path and continue down it. The tension in the air is thick. You pass a large slice of seemingly human flesh. Upon closer inspection, it appears to be several smaller pieces of dead flesh stitched together crudely. As you walk, you decide to leave it be. You reflect on the circumstances that led you here. For months reports had been pouring out of this isolated town of empty streets and screams in the night. The fog never seeming to fade. You came here in search of a story, armed with nothing but your camera. You begin to question if this was a good idea",
+          options: [
+               {
+                    text: "Check camera",
+                    requiredState: (currentState) => !currentState.CameraUnlock,
+                    nextText: 13,
+               },
+               {
+                    text: "Proceed",
+                    requiredState: (currentState) => currentState.CameraUnlock,
+                    nextText: 12,
+               }
+          ]
+
+     },
+     {
+          id: 9,
+          text: "You make jump out the window, broken glass cutting at your arms. You land safely but injured on the grass below. You get the sense that you just narrowly avoided an untimely demise",
+          options: [
+               {
+                    text: "Proceed",
+                    setState: {Injured: true},
+                    nextText: 4,
+               }
+          ]
+     },
+     {
+          id: 10,
+          text: "Slowly, darkness fully envelops your vision. You succumb to your injuries as the creature looms over you.",
+          options: [
+               {
+                    text: "Game Over",
+                    nextText: -1,
+               }
+          ]
+     },
+     {
+          id: 11,
+          text: "You continue down the left path and find yourself outside the supermarket",
+          options: [
+               {
+                    text: "Explore the supermarket",
+                    nextText: 302,
+               },
+               {
+                    text: "Reconsider your options",
+                    nextText: 900,
+               }
+          ]
+     },
+     {
+          id: 12,
+          text: "You continue down the right path following it. It heads back to the main street",
+          options: [
+               {
+                    text: "Continue back to the main street",
+                    nextText: 107,
+               },
+               {
+                    text: "Reconsider your options",
+                    nextText: 900,
+               }
+          ]
+     },
+     {
+          id: 13,
+          text: "You decide to check your trusty camera for damages. All good, thankfully, on the outside at least",
+          options: [
+               {
+                    text: "Open the camera",
+                    nextText: 14,
+               }
+          ]
+     },
+     {
+          id: 14,
+          text: "You open it up to find yourself with only a small bit of film left, good for two photos maybe. On closer inspection, the remaining film is glowing a deep green, as if radiating with some kind of energy. You wonder what would happen if you take a picture",
+          options: [
+               {
+                    text: "Take a picture of a nearby wall",
+                    nextText: 15,
+               },
+               {
+                    text: "Take a picture of your hand",
+                    nextText: 16,
+               }
+          ]
+     },
+     {
+          id: 15,
+          text: "The shutter clicks. You wait for the film to develop. The photograph comes out, showing the wall but unlike it appears in reality. In the photo, the wall is covered with frantic markings of the word 'help' over and over again, seemingly written in blood. You drop the photo in fear. You look up and find that the two paths from earlier crossing again, giving you a chance to continue down your initial path or to switch to the other. You have enough film left for one more photo.",
+          options:
+          [
+               {
+                    text: "Continue, following the left path",
+                    setState: {Camera: true},
+                    setState: {CameraUnlock: true},
+                    nextText: 11,
+               },
+               {
+                    text: "Continue, following the right path",
+                    setState: {Camera: true},
+                    setState: {CameraUnlock: true},
+                    nextText: 12,
+               }
+
+          ]
+     },
+     {
+     id: 16,
+          text: "The shutter clicks. You wait for the film to develop. The photograph comes out, showing your hand but slathered in blood, creeping down your wrists. You drop the photo out of fear and try to not think about it. You have enough film left for one more photo.",
+          options:
+          [
+               {
+                    text: "Continue, following the left path",
+                    setState: {Camera: true},
+                    setState: {CameraUnlock: true},
+                    nextText: 11,
+               },
+               {
+                    text: "Continue, following the right path",
+                    setState: {Camera: true},
+                    setState: {CameraUnlock: true},
+                    nextText: 12,
+               }
+
+          ]
+     },
+     {
           id: 102,
           text: "You decide to stay on the main street, that creeping feeling still looming behind you. You hear rustling in a nearby bin",
           options: [
@@ -580,7 +805,7 @@ const textNodes = [
      },
      {
           id: 135,
-          text: "You take a picture of the key's tag. The photo develops and shows that the tag reads: 'Town Hall'",
+          text: "You take a picture of the key's tag. The photo develops and shows that the tag includes a place name and and a set of initials: 'Town Hall, A.T'",
           options: [
                {
                     text: "Pocket the key and move on",
@@ -630,12 +855,17 @@ const textNodes = [
                     setState: {CameraUnlock: true},
                     nextText: 107,
                },
+               {
+                    text: "Reconsider your options",
+                    nextText: 900,
+               }
           ]
      },
      {
           id: 202,
           text: "It's you.",
-          options: [
+          options:
+          [
                {
                     text: "Take a closer look",
                     nextText: 203,
@@ -643,225 +873,173 @@ const textNodes = [
           ]
      },
      {
-          id: 2,
-          text: "You enter the decrepit church, the rotted wooden walls creak as the wind howls. You hear rustling behind you. ",
+          id: 800,
+          text: "You take a chance and hide away under the stairs, pressing up hard against the wall of the cupboard. You find a secret passage behind the wall The creature you were evading eventually passes by.",
           options: [
                {
-                    text: "Turn around",
-                    nextText: 3,
+                    text: "Exit the cupboard",
+                    nextText: 801,
                },
                {
-                    text: "Run out the back door",
+                    text: "Explore the hidden passage",
+                    nextText: 802,
+               }
+          ]
+     },
+     {
+          id: 801,
+          text: "You slowly exit the cupboard, hoping that the creature from ealier doesn't show up again.",
+          options: [
+               {
+                    text: "Head out the back door",
                     nextText: 4,
                },
                {
-                    text: "Run up the stairs",
-                    nextText: 5,
+                    text: "Try to explore more of the church",
+                    nextText: 803,
+
+               },
+               {
+                    text: "Explore the hidden passage anyway",
+                    nextText: 802,
+               }
+          ]
+     },
+     {
+          id: 802,
+          text: "You go through the secret passage, leading to a network of underground tunnels so vast that it must cover the entire town. You find what seems to be a small office for maintenance.",
+          options: [
+               {
+                    text: "Keep going down the passage",
+                    nextText: 804,
+               },
+               {
+                    text: "Explore the office",
+                    nextText: 805,
+               }
+          ]
+     },
+     {
+          id: 803,
+          text: "You explore more of the church, stumbling upon a glass container with an axe inside, reserved for fires.",
+          options: [
+               {
+                    text: "Take the axe",
+                    setState: {Axe: true},
+                    nextText: 806,
+               },
+               {
+                    text: "Leave it",
+                    nextText: 806,
+               }
+          ]
+     },
+     {
+          id: 804,
+          text: "You continue down the underground passage until you feel a chill down your spine. You quickly turn around only to be faced with a tall pale man. His presence is chilling but ethereal, as though he isn't really there.",
+          options: [
+               {
+                    text: "Stay still",
+                    nextText: 807,
+               },
+               {
+                    text: "Run away",
+                    requiredState: (currentState) => !currentState.Injured,
+                    setState: {Injured: true},
+                    nextText: 808,
+               },
+               {
+                    text: "Try to run away",
+                    requiredState: (currentState) => currentState.Injured,
+                    nextText: 809,
                }
           ]
 
      },
      {
-          id: 3,
-          text: "You turn around and are faced by a huge, groaning blob of flesh. Stitches cover its body connecting multiple shriveled heads. Its large claw-like hands reach towards you, slashing your arm. Blood comes gushing out of you",
+          id: 805,
+          text: "You enter the office, finding a desk with some documents on top and two locked containers. Inside the containers are a set of keys and a music box.",
           options: [
                {
-                    text: "Try to fight the creature",
-                    nextText: 6,
+                    text: "Read the documents",
+                    nextText: 810
                },
                {
-                    text: "Run up the stairs",
-                    nextText: 5,
+                    text: "Try to open the key container",
+                    nextText: 811,
+               },
+               {
+                    text: "Try to open the music box container",
+                    nextText: 812,
                }
           ]
-     },
-     {
-          id: 4,
-          text: "You manage to escape the church, not looking behind you for even a second. Whatever that thing was in the darkness, it seems like it isn't following you. You find yourself in a small alleyway. As you walk further along, the alley forks two directions",
-          options: [
-               {
-                    text: "Turn left",
-                    nextText: 7,
-               },
-               {
-                    text: "Turn right",
-                    nextText: 8,
-               }
 
-          ]
      },
      {
-          id: 5,
-          text: "You dash quickly up the stairs in fear. You find nothing up there but a dead end and a window. It sounds like whatever was behind you is getting closer",
+          id: 806,
+          text: "You head towards the back of the church, the rustling sound returns. You decide its best to leave now while you have the chance",
           options: [
                {
-                    text: "Turn around to face the creature",
-                    nextText: 6,
-               },
-               {
-                    text: "Jump out of the window",
-                    nextText: 9,
+                    text: "Leave out the back door",
+                    nextText: 4,
                }
           ]
      },
      {
-          id: 6,
-          text: "You struggle against the creature, its claws cutting into your flesh. You reach forward and try to strike back but the creature is unmoving. Slowly you start to feel faint. The pain fades.",
+          id: 807,
+          text: "The man speaks: 'Answer these three riddles and you may pass. I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?",
           options: [
                {
-                    text: "Close your eyes",
-                    nextText: 10,
+                    text: "Echo",
+                    nextText: 814,
                },
+               {
+                    text: "Whisper",
+                    nextText: 813,
+               },
+               {
+                    text: "Music",
+                    nextText: 813,
+               },
+               {
+                    text: "Thought",
+                    nextText: 813,
+               }
+          ]
+     },
+     {
+          id: 808,
+          text: "You try to run away from the man and at first he doesn't persue you. After you make some distance you turn around and see his arm stretching out to grab you. His fingers sink into your shoulder like a hook, drawing lots of blood. You're pulled back towards him.",
+          options: [
+               {
+                    text: "Listen to the man",
+                    nextText: 807,
+               }
+          ]
+     },
+     {
+          id: 809,
+          text: "You try to run away but due to your previous injuries the man quickly catches you. You feel the light slowly fade from your eyes",
+          options: [
                {
                     text: "...",
-                    nextText: 10,
-               }
-          ]
-     },
-     {
-          id: 7,
-          text: "You decide to take the left path and continue down it. The alley is filled with an unsettling silence. You pass a deep pool of blood with an unnaturally bright colour. The smell turns your stomach. As you walk, you reflect on the circumstances that led you here. For months reports had been pouring out of this isolated town of empty streets and screams in the night. The fog never seeming to fade. You came here in search of a story, armed with nothing but your camera. You begin to question if this was a good idea",
-          options: [
-               {
-                    text: "Check camera",
-                    requiredState: (currentState) => !currentState.CameraUnlock,
-                    nextText: 13,
-               },
-               {
-                    text: "Proceed",
-                    requiredState: (currentState) => currentState.CameraUnlock,
-                    nextText: 11,
-               }
-          ]
-     },
-     {
-          id: 8,
-          text: "You decide to take the right path and continue down it. The tension in the air is thick. You pass a large slice of seemingly human flesh. Upon closer inspection, it appears to be several smaller pieces of dead flesh stitched together crudely. As you walk, you decide to leave it be. You reflect on the circumstances that led you here. For months reports had been pouring out of this isolated town of empty streets and screams in the night. The fog never seeming to fade. You came here in search of a story, armed with nothing but your camera. You begin to question if this was a good idea",
-          options: [
-               {
-                    text: "Check camera",
-                    requiredState: (currentState) => !currentState.CameraUnlock,
-                    nextText: 13,
-               },
-               {
-                    text: "Proceed",
-                    requiredState: (currentState) => currentState.CameraUnlock,
-                    nextText: 12,
-               }
-          ]
-
-     },
-     {
-          id: 9,
-          text: "You make jump out the window, broken glass cutting at your arms. You land safely but injured on the grass below. You get the sense that you just narrowly avoided an untimely demise",
-          options: [
-               {
-                    text: "Proceed",
-                    setState: {Injured: true},
-                    nextText: 4,
-               }
-          ]
-     },
-     {
-          id: 10,
-          text: "Slowly, darkness fully envelops your vision. You succumb to your injuries as the creature looms over you.",
-          options: [
-               {
-                    text: "Game Over",
                     nextText: -1,
                }
           ]
      },
      {
-          id: 11,
-          text: "You continue down the left path and find yourself outside the supermarket",
+          id: 810,
+          text: "You start to read the documents, hoping to make some sense of what has been happening in this town. They detail a large meteor landing nearby a few years back, not long after strange things started happening. Birds flying away, cattle suddenly dying in mass. That was just the start.",
           options: [
                {
-                    text: "Explore the supermarket",
-                    nextText: 302,
+                    text: "Keep reading",
+                    nextText: 815,
                },
                {
-                    text: "Reconsider your options",
-                    nextText: 999,
+                    text: "Take the documents with you",
+                    setState: {Docs: true},
+                    nextText: 816
                }
-          ]
-     },
-     {
-          id: 12,
-          text: "You continue down the right path following it. It heads back to the main street",
-          options: [
-               {
-                    text: "Continue back to the main street",
-                    nextText: 107,
-               },
-               {
-                    text: "Reconsider your options",
-                    nextText: 999,
-               }
-          ]
-     },
-     {
-          id: 13,
-          text: "You decide to check your trusty camera for damages. All good, thankfully, on the outside at least",
-          options: [
-               {
-                    text: "Open the camera",
-                    nextText: 14,
-               }
-          ]
-     },
-     {
-          id: 14,
-          text: "You open it up to find yourself with only a small bit of film left, good for two photos maybe. On closer inspection, the remaining film is glowing a deep green, as if radiating with some kind of energy. You wonder what would happen if you take a picture",
-          options: [
-               {
-                    text: "Take a picture of a nearby wall",
-                    nextText: 15,
-               },
-               {
-                    text: "Take a picture of your hand",
-                    nextText: 16,
-               }
-          ]
-     },
-     {
-          id: 15,
-          text: "The shutter clicks. You wait for the film to develop. The photograph comes out, showing the wall but unlike it appears in reality. In the photo, the wall is covered with frantic markings of the word 'help' over and over again, seemingly written in blood. You drop the photo in fear. You look up and find that the two paths from earlier crossing again, giving you a chance to continue down your initial path or to switch to the other. You have enough film left for one more photo.",
-          options:
-          [
-               {
-                    text: "Continue, following the left path",
-                    setState: {Camera: true},
-                    setState: {CameraUnlock: true},
-                    nextText: 11,
-               },
-               {
-                    text: "Continue, following the right path",
-                    setState: {Camera: true},
-                    setState: {CameraUnlock: true},
-                    nextText: 12,
-               }
-
-          ]
-     },
-     {
-     id: 16,
-          text: "The shutter clicks. You wait for the film to develop. The photograph comes out, showing your hand but slathered in blood, creeping down your wrists. You drop the photo out of fear and try to not think about it. You have enough film left for one more photo.",
-          options:
-          [
-               {
-                    text: "Continue, following the left path",
-                    setState: {Camera: true},
-                    setState: {CameraUnlock: true},
-                    nextText: 11,
-               },
-               {
-                    text: "Continue, following the right path",
-                    setState: {Camera: true},
-                    setState: {CameraUnlock: true},
-                    nextText: 12,
-               }
-
           ]
      },
 ]
