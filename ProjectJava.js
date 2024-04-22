@@ -1,60 +1,106 @@
-const textElement = document.getElementById('text')
-const optionButtonsElement = document.getElementById('option-buttons')
+const textElement = document.getElementById('text');
+const optionButtonsElement = document.getElementById('option-buttons');
+const numberGuessingGameElement = document.getElementById('number-guessing-game');
 
-let state = {}
+let state = {};
 
 function startGame() {
-  state = {}
-  showTextNode(1)
+  state = {};
+  showTextNode(1);
 }
 
 function showTextNode(textNodeIndex) {
-  const textNode = textNodes.find(textNode => textNode.id === textNodeIndex)
-  textElement.innerText = textNode.text
-  while (optionButtonsElement.firstChild) {
-    optionButtonsElement.removeChild(optionButtonsElement.firstChild)
-  }
+  const textNode = textNodes.find(textNode => textNode.id === textNodeIndex);
+  textElement.innerText = textNode.text;
+  optionButtonsElement.innerHTML = ''; // Clear existing buttons
 
-  textNode.options.forEach(option => {
+  textNode.options.forEach((option, index) => {
     if (showOption(option)) {
-      const button = document.createElement('button')
-      button.innerText = option.text
-      button.classList.add('btn')
-      button.addEventListener('click', () => selectOption(option))
-      optionButtonsElement.appendChild(button)
+      const button = document.createElement('button');
+      button.innerText = option.text;
+      button.classList.add('btn');
+      button.dataset.optionIndex = index; // Store option index as data attribute
+      button.addEventListener('click', () => selectOption(option));
+      optionButtonsElement.appendChild(button);
     }
-  })
+  });
+
+  // Show/hide number guessing game
+  if (textNode.id === 811) {
+    numberGuessingGameElement.style.display = 'block'; // Show number guessing game
+  } else {
+    numberGuessingGameElement.style.display = 'none'; // Hide number guessing game
+  }
 }
 
 function showOption(option) {
-  return option.requiredState == null || option.requiredState(state)
+  return option.requiredState == null || option.requiredState(state);
 }
 
 function selectOption(option) {
-  const nextTextNodeId = option.nextText
+  const nextTextNodeId = option.nextText;
   if (nextTextNodeId <= 0) {
-    return startGame()
+    return startGame();
   }
-  if (nextTextNodeId === 811) {
-    // If the player chooses to play the number guessing game
-    // Start the number guessing game
-    startNumberGuessingGame();
+  
+  // Show the next text node
+  const nextTextNode = textNodes.find(node => node.id === nextTextNodeId);
+  if (nextTextNode) {
+    state = Object.assign(state, option.setState);
+    showTextNode(nextTextNodeId);
   } else {
-    // Show the next text node
-    state = Object.assign(state, option.setState)
-    showTextNode(nextTextNodeId)
+    console.error(`Text node with id ${nextTextNodeId} not found!`);
   }
 }
 
 // Function to start the number guessing game
 function startNumberGuessingGame() {
-  // Hide the text and option buttons
-  textElement.style.display = 'none';
-  optionButtonsElement.style.display = 'none';
+  // Number guessing game logic
+  const input = document.querySelector(".input-field input"),
+    guess = document.querySelector(".guess"),
+    checkButton = document.querySelector(".input-field button"),
+    remainChances = document.querySelector(".chances");
 
-  // Show the number guessing game HTML
-  document.getElementById('number-guessing-game').style.display = 'block';
+  input.focus();
+
+  let randomNum = Math.floor(Math.random() * 100);
+  let chance = 10;
+
+  checkButton.addEventListener("click", () => {
+    chance--;
+    let inputValue = input.value;
+    if (inputValue == randomNum) {
+      // If the player guesses the correct number
+      // Show success message and transition to the next text node
+      guess.textContent = "Congratulations! You guessed the number.";
+      // Transition to text node 817 in the main game
+      showTextNode(817);
+    } else if (inputValue > randomNum && inputValue < 100) {
+      [guess.textContent, remainChances.textContent] = ["Your guess is high", chance];
+      guess.style.color = "#333";
+    } else if (inputValue < randomNum && inputValue > 0) {
+      [guess.textContent, remainChances.textContent] = ["Your guess is low", chance];
+      guess.style.color = "#333";
+    } else {
+      [guess.textContent, remainChances.textContent] = ["Your number is invalid", chance];
+      guess.style.color = "#DE0611";
+    }
+    if (chance == 0) {
+      [checkButton.textContent, input.disabled, inputValue] = ["Replay", true, ""];
+      [guess.textContent, guess.style.color] = ["You lost the game", "#DE0611"];
+    }
+    if (chance < 0) {
+      window.location.reload();
+    }
+  });
 }
+
+// Ensure the number guessing game button is properly set up
+const numberGuessingButton = document.querySelector('.number-guessing-button');
+if (numberGuessingButton) {
+  numberGuessingButton.addEventListener('click', startNumberGuessingGame);
+}
+
 
 const textNodes = [
      {
@@ -379,7 +425,7 @@ const textNodes = [
           options: [
                {
                     text: "Explore the house",
-                    nextText: 250,
+                    nextText: 206,
                },
                {
                     text: "Exit the house through the back",
@@ -395,7 +441,7 @@ const textNodes = [
                {
                     text: "Check the house in front of you",
                     requiredState: (currentState) => !currentState.HouseComplete,
-                    nextText: 250,
+                    nextText: 206,
                },
                {
                     text: "Check the Church",
@@ -538,12 +584,19 @@ const textNodes = [
                {
                     text: "Go back inside the house",
                     setState: {Camera: true},
-                    nextText: 250,
+                    requiredState: (currentState) => !currentState.KitchenDone,
+                    nextText: 206,
                },
                {
                     text: "Head back to the main street",
                     setState: {Camera: true},
                     nextText: 107,
+               },
+               {
+                    text: "Go back inside the house",
+                    setState: {Camera: true},
+                    requiredState: (currentState) => currentState.KitchenDone,
+                    nextText: 210,
                }
 
           ]
@@ -555,13 +608,23 @@ const textNodes = [
                {
                     text: "Go back inside the house",
                     setState: {Camera: true},
-                    nextText: 250,
+                    requiredState: (currentState) => !currentState.HouseComplete,
+                    requiredState: (currentState) => !currentState.KitchenDone,
+                    nextText: 206,
                },
                {
                     text: "Head back to the main street",
                     setState: {Camera: true},
                     nextText: 107,
+               },
+               {
+                    text: "Go back inside the house",
+                    setState: {Camera: true},
+                    requiredState: (currentState) => !currentState.HouseComplete,
+                    requiredState: (currentState) => currentState.KitchenDone,
+                    nextText: 210,
                }
+
 
           ]
      },
@@ -889,6 +952,164 @@ const textNodes = [
           ]
      },
      {
+          id: 203,
+          text: "In your reflection, in the corner of your eye you spot what appears to be a little girl staring at you. A chill runs down your back.",
+          options: [
+               {
+                    text: "Run",
+                    nextText: 204,
+               },
+               {
+                    text: "Do nothing",
+                    nextText: 205,
+               }
+          ]
+     },
+     {
+          id: 204,
+          text: "Getting a bad feeling, you run as fast as you can from the girl. You run inside a nearby house, attempting to barricade the door. It seems as though you're safe for now.",
+          options: [
+               {
+                    text: "Explore the house",
+                    nextText: 206,
+               },
+               {
+                    text: "Exit the house through the back",
+                    nextText: 112,
+               },
+          ]
+     },
+     {
+          id: 205, 
+          text: "Seeing the girl in your reflection, you become paralysed with fear. The last thing you see before everything goes dark is her lunging towards you at an impossible speed. When you wake up, you're inside a walk-in fridge, chained to the ground",
+          options: [
+               {
+                    text: "Attempt to break free",
+                    requiredState: (currentState) => !currentState.Injured,
+                    nextText: 320,
+               },
+               {
+                    text: "Attempt to break free",
+                    requiredState: (currentState) => currentState.Injured,
+                    nextText: 321
+               }
+          ]
+     },
+     {
+          id: 206,
+          text: "You decide to explore the house. In the kitchen you find unwashed pots and pans. Whoever lived here left in a hurry. Looks like there's nothing of use in the kitchen. Where to next?",
+          options: [
+               {
+                    text: "Check the bedroom",
+                    nextText: 207
+               },
+               {
+                    text: "Check the garage",
+                    nextText: 208,
+               },
+               {
+                    text: "Head out the back of the house",
+                    nextText: 112,
+               }
+          ]
+     },
+     {
+          id: 207,
+          text: "You head into the bedroom and search the place. You open a cupboard and find a suspicious looking letter. It doesn't seem like there's much else up here.",
+          options: [
+               {
+                    text: "Read the letter",
+                    nextText: 209,
+               },
+               {
+                    text: "Check the garage instead",
+                    nextText: 208,
+               }
+          ]
+     },
+     {
+          id: 208,
+          text: "You head into the garage and find very little. No car and very little in the way of tools. You do however, find a crowbar. Take it?",
+          options: [
+               {
+                    text: "Take the crowbar",
+                    requiredState: (currentState) => !currentState.Crowbar,
+                    setState: {Crowbar: true},
+                    nextText: 211,
+               },
+               {
+                    text: "Check the bedroom instead",
+                    nextText: 207,
+               },
+               {
+                    text: "Leave the crowbar",
+                    requiredState: (currentState) => currentState.Crowbar,
+                    nextText: 212,
+               }
+          ]
+     },
+     {
+          id: 209,
+          text: "The letter reads the following: To my dear Emily, I understand your concerns about the recent disturbances but I urge you to stay here in Havebrook. Please come meet with me in the town hall, I can guarantee your safety. Your friend, Mayor Taylor.",
+          options: 
+          [
+          {
+               text: "Continue",
+               nextText: 213,
+          }
+     ]
+     },
+     {
+          id: 210,
+          text: "You head back inside the house. Where would you like to explore next?",
+          options: [
+               {
+                    text: "Check the bedroom",
+                    nextText: 207
+               },
+               {
+                    text: "Check the garage",
+                    nextText: 208,
+               },
+          ]
+     },
+     {
+          id: 211,
+          text: "You pick up the crowbar and add it to your bag. Might come in handy later",
+          options: [
+               {
+                    text: "Continue",
+                    nextText: 213,
+               }
+          ]
+     },
+     {
+          id: 212,
+          text: "Since you already have a crowbar on you, it doesn't make sense to carry another one. You decide to check the bedroom instead",
+          options: [
+               {
+                    text: "Check the bedroom",
+                    nextText: 207,
+               }
+          ]
+     },
+     {
+          id: 213,
+          text: "Suddenly, the entire building starts to shake as if there is an earthquake. You run outside quickly and manage to make it out unharmed",
+          options: [
+               {
+                    text: "Return to the main street",
+                    requiredState: (currentState) => currentState.CameraUnlock,
+                    nextText: 107,
+               },
+               {
+                    text: "Check camera",
+                    requiredState: (currentState) => !currentState.CameraUnlock,
+                    nextText: 114,
+               }
+          ]
+     },
+     {
           id: 800,
           text: "You take a chance and hide away under the stairs, pressing up hard against the wall of the cupboard. You find a secret passage behind the wall The creature you were evading eventually passes by.",
           options: [
@@ -1060,13 +1281,206 @@ const textNodes = [
      },
      {
           id: 811,
-          text: "You go to open the container that holds a key. As you start to touch the lock, the other container which contains a music box fully encloses.",
+          text: "You go to open the container that holds a key. As you start to touch the lock, the other container which contains a music box locks completely. Looks like you have to live with yoir choice.",
+          options: [
+          { 
+               text: "Open",
+               nextText: 817,
+          },
+          {
+               text: "Leave",
+               nextText: 821,
+          }
+          ]
+     },
+     {
+          id: 812,
+          text: "You go to open the container that holds a music box. As you start to touch the lock, the other container which contains a key locks completely. Looks like you have to live with yoir choice.",
           options: [
                {
-                    //ADD THE NUMBER GUESSING GAME HERE
+                    text: "Open",
+                    nextText: 820,
+               },
+               {
+                    text: "Leave",
+                    nextText: 821,
                }
           ]
      },
+     {
+          id: 813,
+          text: "The man speaks: 'Incorrect.' A flash of light, a spark and a loud bang. Then everything goes black",
+          options: [
+               {
+                    text: "...",
+                    nextText: -1,
+               }
+          ]
+     },
+     {
+          id: 814,
+          text: "The man speaks: 'Correct, now the next riddle. I can be cracked, made, told, and played. What am I?",
+          options: [
+               {
+                    text: "Joke",
+                    nextText: 813,
+               },
+               {
+                    text: "Egg",
+                    nextText: 813,
+               },
+               {
+                    text: "Code",
+                    nextText: 822,
+               },
+               {
+                    text: "Game",
+                    nextText: 813,
+               }
+          ]
+     },
+     {
+          id: 815,
+          text: "You read on. The conditions in the town get worse. People start to go missing. Strange sitings of creatures that can't be explained. There's no pattern to the sitings either. The mayor and her husband insist everything is ok but lock themselves in the town hall. People who haven't gone missing start to leave the town en masse. Seems like the town hall is a good place to check. ",
+          options: [
+               {
+                    text: "Take the documents with you",
+                    setState: {Docs: true},
+                    nextText: 816
+               },
+          ]
+     },
+     {
+          id: 816,
+          text: "You put the documents in your bag, considering your next move",
+          options: [
+          {
+               text: "Try to open the key container",
+               nextText: 811,
+          },
+          {
+               text: "Try to open the music box container",
+               nextText: 812,
+          },
+          {
+               text: "Leave the office",
+               nextText: 804,
+          }
+          ]
+     },
+     {
+          id: 817,
+          text: "You opened the container and got the key. It has a tag attatched but there is no writing on it. You wonder if there is hidden writing",
+          options: [
+               {
+                    text: "Use your camera on the tag",
+                    requiredState: (currentState) => currentState.Camera,
+                    nextText: 818,
+               },
+               {
+                    text: "Pocket the key and move on",
+                    nextText: 819,
+               }
+               ]
+          }, 
+          {
+               id: 818,
+               text: "You take a picture of the key's tag. The photo develops and shows that the tag includes a place name and and a set of initials: 'Town Hall, H.G'",
+               options: [
+                    {
+                         text: "Pocket the key and move on",
+                         setState: {THall: true},
+                         setState: {Camera: false},
+                         nextText: 819,
+                    }
+               ]
+          },
+          {
+               id: 819,
+               text: "You pocket the key and leave the office, heading back to the tunnels.",
+               options: [
+                    {
+                         text: "Continue",
+                         nextText: 804,
+                    }
+               ]
+          },
+          {
+               id: 820,
+               text: "You take the music box and put it in your bag. You're not entirely sure what made you choose it over the key but you hope it was the right choice.",
+               options: [
+                    {
+                         text: "Check the documents.",
+                         requiredState: (currentState) => !currentState.Docs,
+                         setState: {Containers: true},
+                         setState: {MusicBox: true},
+                         nextText: 810,
+                    },
+                    {
+                         text: "Leave the office",
+                         setState: {Containers: true},
+                         setState: {MusicBox: true},
+                         nextText: 804,
+                    }
+               ]
+          },
+          {
+               id: 821,
+               text: "You decide to leave the container alone",
+               options: [
+                    {
+                         text: "Check the documents.",
+                         requiredState: (currentState) => !currentState.Docs,
+                         setState: {Containers: true},
+                         nextText: 810,
+                    },
+                    {
+                         text: "Leave the office",
+                         setState: {Containers: true},
+                         nextText: 804,
+                    }
+               ]
+
+          },
+          {
+               id: 822,
+               text: "The man speaks: 'Correct, now the next riddle. I'm not alive, but I can grow. I don't have lungs, but I need air. Water is poison to me. What am I?",
+               options: [
+                    {
+                         text: "Ice",
+                         nextText: 813,
+                    },
+                    {
+                         text: "Shadows",
+                         nextText: 813,
+                    },
+                    {
+                         text: "Plants",
+                         nextText: 813,
+                    },
+                    {
+                         text: "Fire",
+                         setState: {BasementComplete: true},
+                         setState: {ChurchComplete: true},
+                         nextText: 823,
+                    }
+
+               ]
+          },
+          {
+               id: 823,
+               text: "The man speaks: 'Three correct answers. You may pass.' His prescence fades, allowing you to continue. You follow the tunnels until you find a ladder. Going up, you find yourself back near the town's main street.",
+               options: [
+               {
+                    text: "Decide on a new area to explore",
+                    nextText: 107,
+               },
+               {
+                    text: "Reconsider your options",
+                    nextText: 900,
+               }
+          ]
+          }
 ]
 
 startGame()

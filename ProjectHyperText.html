@@ -1,24 +1,37 @@
-<!DOCTYPE html >
-<html lang ="en">
-<div class="container">
-  <div class="text"></div>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<LINK href="ProjectStyle.css" rel="stylesheet" type="text/css">
-<script defer src="ProjectJava.js"></script>
-<title>Game Project</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Project</title>
+  <link href="ProjectStyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div class="container">
-<div id="text">Game Name</div>
-<div id ="option-buttons" class="btn-grid">
-<button class="btn">Option 1</button>
-<button class="btn">Option 2</button>
-<button class="btn">Option 3</button>
-<button class="btn">Option 4</button>
-	</div>	
-</div>
+  <!-- Main game container -->
+  <div class="container">
+    <!-- Text element for the main game -->
+    <div id="text" class="text"></div>
+    <!-- Option buttons for the main game -->
+    <div id="option-buttons" class="btn-grid"></div>
+  </div>
+
+  <!-- Number guessing game container (initially hidden) -->
+  <div id="number-guessing-game" style="display: none;">
+    <!-- Number guessing game HTML elements -->
+    <div class="wrapper">
+      <header>Guess a number from 1 to 100</header>
+      <p class="guess"></p>
+      <div class="input-field">
+        <input type="number" />
+        <button class="check-btn">Check</button>
+      </div>
+      <p>You have <span class="chances">10</span> chances</p>
+    </div>
+  </div>
+
+  <!-- Button to start the number guessing game -->
+  <button class="number-guessing-button" style="display: none;">Start Number Guessing Game</button>
+
+  <script defer src="ProjectJava.js"></script>
 </body>
-</html>	
+</html>
