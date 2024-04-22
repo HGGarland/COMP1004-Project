@@ -35,10 +35,26 @@ function selectOption(option) {
   if (nextTextNodeId <= 0) {
     return startGame()
   }
-  state = Object.assign(state, option.setState)
-  showTextNode(nextTextNodeId)
+  if (nextTextNodeId === 811) {
+    // If the player chooses to play the number guessing game
+    // Start the number guessing game
+    startNumberGuessingGame();
+  } else {
+    // Show the next text node
+    state = Object.assign(state, option.setState)
+    showTextNode(nextTextNodeId)
+  }
 }
 
+// Function to start the number guessing game
+function startNumberGuessingGame() {
+  // Hide the text and option buttons
+  textElement.style.display = 'none';
+  optionButtonsElement.style.display = 'none';
+
+  // Show the number guessing game HTML
+  document.getElementById('number-guessing-game').style.display = 'block';
+}
 
 const textNodes = [
      {
@@ -1039,6 +1055,15 @@ const textNodes = [
                     text: "Take the documents with you",
                     setState: {Docs: true},
                     nextText: 816
+               }
+          ]
+     },
+     {
+          id: 811,
+          text: "You go to open the container that holds a key. As you start to touch the lock, the other container which contains a music box fully encloses.",
+          options: [
+               {
+                    //ADD THE NUMBER GUESSING GAME HERE
                }
           ]
      },
