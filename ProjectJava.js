@@ -9,6 +9,41 @@ function startGame() {
   showTextNode(1);
 }
 
+function getUsername() {
+     var username = prompt("Please enter your username:");
+     return username;
+ }
+
+function downloadJSON(data, filename) {
+     var blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
+     var url = URL.createObjectURL(blob);
+ 
+     var a = document.createElement('a');
+     a.href = url;
+     a.download = filename;
+     document.body.appendChild(a);
+     a.click();
+     setTimeout(function() {
+         document.body.removeChild(a);
+         window.URL.revokeObjectURL(url);  
+     }, 0); 
+ }
+ 
+ var playerUsername = getUsername();
+
+ // Example usage
+ var playerData = [
+     {
+         "username": playerUsername,
+         "minutes_played": 0,
+         "score": 0,
+         "level": 0
+     },
+ ];
+  
+ downloadJSON(playerData, 'player_data.json');
+ 
+
 function showTextNode(textNodeIndex) {
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex);
   textElement.innerText = textNode.text;
@@ -70,10 +105,7 @@ function startNumberGuessingGame() {
     chance--;
     let inputValue = input.value;
     if (inputValue == randomNum) {
-      // If the player guesses the correct number
-      // Show success message and transition to the next text node
       guess.textContent = "Congratulations! You guessed the number.";
-      // Transition to text node 817 in the main game
       showTextNode(817);
     } else if (inputValue > randomNum && inputValue < 100) {
       [guess.textContent, remainChances.textContent] = ["Your guess is high", chance];
@@ -94,8 +126,6 @@ function startNumberGuessingGame() {
     }
   });
 }
-
-// Ensure the number guessing game button is properly set up
 const numberGuessingButton = document.querySelector('.number-guessing-button');
 if (numberGuessingButton) {
   numberGuessingButton.addEventListener('click', startNumberGuessingGame);
@@ -1480,6 +1510,16 @@ const textNodes = [
                     nextText: 900,
                }
           ]
+          },
+          {
+               id: 1000,
+               text: "The End",
+               options: [
+                    {
+                         text: "Restart?",
+                         nextText: -1,
+                    }
+               ]
           }
 ]
 
