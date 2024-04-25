@@ -414,10 +414,12 @@ const textNodes = [
           options: [
                {
                     text: "Return to the main street",
+                    setState: {BinComplete: true},
                     nextText: 107,
                },
                {
                     text: "Head to the church",
+                    setState: {BinComplete: true},
                     nextText: 2,
                }
           ]
@@ -481,13 +483,21 @@ const textNodes = [
                {
                     text: "Check the nearby supermarket",
                     requiredState: (currentState) => !currentState.SupermarketComplete,
-                    nextText: 340,
+                    nextText: 302,
                },
                {
                     text: "Stay on the main street",
                     requiredState: (currentState) => !currentState.BinComplete,
                     nextText: 102,
                },
+               {
+                    text: "Reconsider your options",
+                    requiredState: (currentState) => currentState.HouseComplete,
+                    requiredState: (currentState) => currentState.ChurchComplete,
+                    requiredState: (currentState) => currentState.SupermarketComplete,
+                    requiredState: (currentState) => currentState.BinComplete,
+                    nextText: 900
+               }
           ]
      },
      {
@@ -695,6 +705,7 @@ const textNodes = [
                },
                {
                     text: "Explore the alley further",
+                    setState: {BinComplete: true},
                     nextText: 121,
                }
           ]
@@ -1016,12 +1027,12 @@ const textNodes = [
                {
                     text: "Attempt to break free",
                     requiredState: (currentState) => !currentState.Injured,
-                    nextText: 320,
+                    nextText: 310,
                },
                {
                     text: "Attempt to break free",
                     requiredState: (currentState) => currentState.Injured,
-                    nextText: 321
+                    nextText: 311
                }
           ]
      },
@@ -1130,12 +1141,201 @@ const textNodes = [
                {
                     text: "Return to the main street",
                     requiredState: (currentState) => currentState.CameraUnlock,
+                    setState: {HouseComplete: true},
                     nextText: 107,
                },
                {
                     text: "Check camera",
                     requiredState: (currentState) => !currentState.CameraUnlock,
+                    setState: {HouseComplete: true},
                     nextText: 114,
+               }
+          ]
+     },
+     {
+          id: 302,
+          text: "You approach the supermarket, aiming to find some new information or useful tools. You find the front door padlocked shut",
+          options: [
+               {
+                    text: "Open with Crowbar",
+                    requiredState: (currentState) => currentState.Crowbar,
+                    setState: {Crowbar: true},
+                    nextText: 303,
+               },
+               {
+                    text: "Try the back entrance",
+                    nextText: 304,
+               }
+          ]
+     },
+     {
+          id: 303,
+          text: "You struggle but manage to break the lock using your crowbar but end up bending it in the process. You decide to throw it away.",
+          options: [
+               {
+                    text: "Enter the supermarket",
+                    nextText: 305,
+               }
+          ]
+     },
+     {
+          id: 304,
+          text: "You go around the back and manage to find the back entrance unlocked. You head inside, moving through the stockroom. After some time, you hear some rustling behind you",
+          options: [
+               {
+                    text: "Turn around",
+                    nextText: 306,
+               },
+               {
+                    text: "Hide in the office",
+                    nextText: 307
+               },
+               {
+                    text: "Hide in the stockroom",
+                    nextText: 308,
+               },
+               {
+                    text: "Hide in the breakroom",
+                    nextText: 308
+               }
+          ]
+     },
+     {
+          id: 305,
+          text: "You head into the supermarket and look around for anything that might be useful",
+          options: [
+               {
+                    text: "Grab some camera film",
+                    requiredState: (currentState) => !currentState.Camera,
+                    requiredState: (currentState) => currentState.CameraUnlock,
+                    setState: {Camera: true},
+                    nextText: 309,
+               },
+               {
+                    text: "Grab some bandages",
+                    requiredState: (currentState) => !currentState.Injured,
+                    setState: {Bandages: true},
+                    nextText: 309,
+               },
+               {
+                    text: "Grab some bandages",
+                    requiredState: (currentState) => currentState.Injured,
+                    setState: {Injured: false},
+                    nextText: 312,
+               }
+          ]
+     },
+     {
+          id: 306,
+          text: "You turn around and are faced by a huge bipedal wolf creature. It growls and lunges at you. You try to fight back but quickly fall unconscious. When you wake up, you're inside a walk-in fridge, chained to the ground",
+          options: [
+               {
+                    text: "Attempt to break free",
+                    requiredState: (currentState) => !currentState.Injured,
+                    nextText: 310,
+               },
+               {
+                    text: "Attempt to break free",
+                    requiredState: (currentState) => currentState.Injured,
+                    nextText: 311,
+               }
+          ]
+     },
+     {
+          id: 307,
+          text: "You hide in the office, watching as a huge bipedal wolf creature passes by. When you're sure its gone, you exit the office, heading back into the stockroom",
+          options:
+          [
+               { 
+                    text: "Head back into the stockroom",
+                    nextText: 312,
+               }
+          ]
+     },
+     {
+          id: 308,
+          text: "You hide from whatever creature is stalking you. You see it, a huge wolf like creature that walks like a man. It sees you. It growls and lunges at you. You try to fight back but quickly fall unconscious. When you wake up, you're inside a walk-in fridge, chained to the ground",
+          options: [
+               {
+                    text: "Attempt to break free",
+                    requiredState: (currentState) => !currentState.Injured,
+                    setState: {Injured: true},
+                    nextText: 310,
+               },
+               {
+                    text: "Attempt to break free",
+                    requiredState: (currentState) => currentState.Injured,
+                    nextText: 311,
+               }
+          ]
+     },
+     {
+          id: 309,
+          text: "You grab the first thing that looks useful. Not wanting to waste too much time on the mostly empty shop floor, you decide to head to the staff only area out back",
+          options: [
+               {
+                    text: "Enter the stockroom",
+                    nextText: 312,
+               }
+          ]
+     },
+     {
+          id: 310,
+          text: "You manage to force your chains apart but injure yourself in the process. You open the door and find the store's stockroom",
+          options: [
+               {
+                    text: "Enter the stockroom",
+                    nextText: 312,
+               }
+          ]
+     },
+     {
+          id: 311,
+          text: "Due to your previous injuries, you lack the ability to break free from your chains. Weeks pass, eventually your strength fails you. You close your eyes",
+          options: [
+               {
+                    text: "...",
+                    nextText: -1,
+               }
+          ]
+     },
+     {
+          id: 312,
+          text: "You head back into the stockroom. You spot a fire axe in a case",
+          options: [
+               {
+                    text: "Take it",
+                    requiredState: (currentState) => !currentState.Axe,
+                    setState: {Injured: true},
+                    nextText: 313,
+               },
+               {
+                    text: "Leave it",
+                    requiredState: (currentState) => currentState.Axe,
+                    nextText: 314,
+               }
+          ]
+     },
+     {
+          id: 313,
+          text: "You take the axe with you, could be useful. You head out the supermarket's back entrance and head back to the main street",
+          options: [
+               {
+                   text: "Proceed",
+                   setState: {SupermarketComplete: true},
+                   nextText: 107
+
+               }
+          ]
+     },
+     {
+          id: 314,
+          text: "You leave the axe, since you already have one. You head out the supermarket's back entrance and head back to the main street",
+          options: [
+               {
+                    text: "Proceed",
+                    setState: {SupermarketComplete: true},
+                    nextText: 107
                }
           ]
      },
@@ -1311,10 +1511,12 @@ const textNodes = [
      },
      {
           id: 811,
-          text: "You go to open the container that holds a key. As you start to touch the lock, the other container which contains a music box locks completely. Looks like you have to live with yoir choice.",
+          text: "You go to open the container that holds a key. As you start to touch the lock, the other container which contains a music box locks completely. Looks like you have to live with yoir choice. It has a solid lock on it but maybe a crowbar could free it",
           options: [
           { 
-               text: "Open",
+               text: "Open with your crowbar",
+               requiredState: (currentState) => currentState.Crowbar,
+               setState: {Crowbar: false},
                nextText: 817,
           },
           {
@@ -1325,10 +1527,12 @@ const textNodes = [
      },
      {
           id: 812,
-          text: "You go to open the container that holds a music box. As you start to touch the lock, the other container which contains a key locks completely. Looks like you have to live with yoir choice.",
+          text: "You go to open the container that holds a crowbar. As you start to touch the lock, the other container which contains a key locks completely. Looks like you have to live with yoir choice. The container is set up with a series of spikes that will trigger if you try and grab the crowbar",
           options: [
                {
-                    text: "Open",
+                    text: "Open anyway",
+                    requiredState: (currentState) => !currentState.Injured,
+                    setState: {Injured: true},
                     nextText: 820,
                },
                {
@@ -1400,7 +1604,7 @@ const textNodes = [
      },
      {
           id: 817,
-          text: "You opened the container and got the key. It has a tag attatched but there is no writing on it. You wonder if there is hidden writing",
+          text: "You opened the container and got the key, breaking the crowbar in the process. It has a tag attatched but there is no writing on it. You wonder if there is hidden writing",
           options: [
                {
                     text: "Use your camera on the tag",
@@ -1409,6 +1613,7 @@ const textNodes = [
                },
                {
                     text: "Pocket the key and move on",
+                    setState: {TKey: true},
                     nextText: 819,
                }
                ]
@@ -1437,13 +1642,13 @@ const textNodes = [
           },
           {
                id: 820,
-               text: "You take the music box and put it in your bag. You're not entirely sure what made you choose it over the key but you hope it was the right choice.",
+               text: "Your hand is punctured by several spikes, injuring you. You take the crowbar and put it in your bag. You're not entirely sure what made you choose it over the key but you hope it was the right choice.",
                options: [
                     {
                          text: "Check the documents.",
                          requiredState: (currentState) => !currentState.Docs,
                          setState: {Containers: true},
-                         setState: {MusicBox: true},
+                         setState: {Crowbar: true},
                          nextText: 810,
                     },
                     {
@@ -1456,7 +1661,7 @@ const textNodes = [
           },
           {
                id: 821,
-               text: "You decide to leave the container alone",
+               text: "You decide to leave the container alone, its not worth it",
                options: [
                     {
                          text: "Check the documents.",
@@ -1510,6 +1715,95 @@ const textNodes = [
                     nextText: 900,
                }
           ]
+          },
+          {
+               id: 900,
+               text: "You think about your next steps,",
+               options: [
+                    {
+                         text: "Bandage your wounds",
+                         requiredState: (currentState) => currentState.Injured,
+                         requiredState: (currentState) => currentState.Bandages,
+                         setState: {Injured: false},
+                         nextText: 901,
+                    },
+                    {
+                         text: "Use camera on Key tag",
+                         requiredState: (currentState) => currentState.TKey,
+                         requiredState: (currentState) => !currentState.THall,
+                         requiredState: (currentState) => currentState.Camera,
+                         setState: {THall: true},
+                         setState: {Camera: false},
+                         nextText: 902,
+                    },
+                    {
+                         text: "Head to town hall",
+                         requiredState: (currentState) => currentState.THall,
+                         nextText: 903,
+                    },
+                    {
+                         text: "Reset",
+                         nextText: -1,
+                    }
+               ]
+          },
+          {
+               id: 901,
+               text: "You bandage your wounds",
+               options: [
+                    {
+                         text: "Next options",
+                         nextText: 900,
+                    }
+               ]
+          },
+          {
+               id: 902,
+               text: "Your camera reveals the tag on the key is devoted to the town hall",
+               options: [
+                    {
+                         text: "Next options",
+                         setState: {THall: true},
+                         nextText: 900,
+                    }
+               ]
+          },
+          {
+               id: 903,
+               text: "You decided that all your questions will be answered at the town hall. You head there and unlock the front door with your key. Inside is some kind of extraterrestrial pod. You feel as though you should break it open. An axe would do",
+               options: [
+                    {
+                         text: "Break with Axe",
+                         requiredState: (currentState) => currentState.Axe,
+                         nextText: 904,
+                    },
+                    {
+                         text: "Go back",
+                         requiredState: (currentState) => !currentState.Axe,
+                         nextText: 107,
+                    }
+               ]
+          },
+          {
+               id: 904,
+               text: "When you break open the pod, the strange atmosphere surrounding the town insantly disappears. You begin to connect the dots. This alien pod must have been projecting and manifesting all those strange creatures",
+               options: [
+                    {
+                         text: "Continue",
+                         nextText: 905,
+                    }
+               ]
+               
+          },
+          {
+               id: 905,
+               text: "Having got your story, you finally leave Havenbrook for good. You theorise that the pod was designed to protect an alien explorer on Earth by scanning the human's brains and creating threats based off of their biggest fears. While you're glad to be out of the town, you can't help but worry about the extraterrestrial passenger. You hope this is the end, but feel a pang of doubt",
+               options: [
+                    {
+                         text: "...",
+                         nextText: 1000,
+                    }
+               ]
           },
           {
                id: 1000,
